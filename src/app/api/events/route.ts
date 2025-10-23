@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 
 // Supabase credentials from env
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!, // we’ll add this below
-  process.env.SUPABASE_SERVICE_KEY!      // server-only key
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!
 );
 
 export async function GET() {
