@@ -7,26 +7,12 @@ export default function NewEventPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const payload = {
-      title: fd.get("title"),
-      description: fd.get("description"),
-      location: fd.get("location"),
-      start: new Date(fd.get("start") as string).toISOString(),
-      end: new Date(fd.get("end") as string).toISOString(),
-      approved: true,          // change to false if you want moderator approval
-    };
-
-    const res = await fetch("/api/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
+    const res = await fetch("/api/events", { method: "POST", body: fd });
     if (res.ok) router.push("/events");
     else alert("Error creating event");
   }
 
-  const now = new Date().toISOString().slice(0, 16); // local datetime-local default
+  const now = new Date().toISOString().slice(0, 16);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-black text-white px-6 py-12">
@@ -40,6 +26,8 @@ export default function NewEventPage() {
           <input name="start" type="datetime-local" required defaultValue={now} className="w-full rounded bg-white/10 border border-white/20 px-4 py-2" />
           <label className="block text-sm">End</label>
           <input name="end" type="datetime-local" required defaultValue={now} className="w-full rounded bg-white/10 border border-white/20 px-4 py-2" />
+          <label className="block text-sm">Event image (optional)</label>
+          <input name="image" type="file" accept="image/*" className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-indigo-600 file:text-white hover:file:bg-indigo-500" />
           <div className="flex gap-3">
             <button type="submit" className="px-5 py-2 rounded bg-indigo-600 hover:bg-indigo-500 transition">Create</button>
             <button type="button" onClick={() => router.back()} className="px-5 py-2 rounded bg-white/10 hover:bg-white/20 transition">Cancel</button>

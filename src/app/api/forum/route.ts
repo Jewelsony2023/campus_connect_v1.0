@@ -11,6 +11,15 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const created = await prisma.forumPost.create({ data: body });
+
+  const user = await prisma.user.upsert({
+    where: { email: "placeholder@campus.local" },
+    update: {},
+    create: { email: "placeholder@campus.local", name: "Placeholder User", role: "STUDENT" },
+  });
+
+  const created = await prisma.forumPost.create({
+    data: { ...body, userId: user.id },
+  });
   return NextResponse.json(created, { status: 201 });
 }

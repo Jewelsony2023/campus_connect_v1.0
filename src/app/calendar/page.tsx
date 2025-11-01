@@ -1,6 +1,7 @@
+// src\app\calendar\page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { Calendar, momentLocalizer, Navigate } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./cal-overrides.css";
@@ -35,17 +36,10 @@ export default function CalendarPage() {
           <Calendar
             localizer={localizer}
             events={events}
+            startAccessor="start"
+            endAccessor="end"
             style={{ height: 600 }}
             eventPropGetter={() => ({ className: "cal-event" })}
-            components={{
-              toolbar: (props) => (
-                <div className="flex items-center justify-between mb-4">
-                  <button onClick={() => props.onNavigate(Navigate.PREVIOUS)} className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 transition text-neutral-200">‹ Prev</button>
-                  <span className="text-lg font-medium tracking-tight">{props.label}</span>
-                  <button onClick={() => props.onNavigate(Navigate.NEXT)} className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 transition text-neutral-200">Next ›</button>
-                </div>
-              ),
-            }}
           />
         </div>
       </div>
